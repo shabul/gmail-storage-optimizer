@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}History - Gmail Storage Optimizer{% endblock %}
+
+{% block content %}
+<div class="history">
+    <h2>Deletion History</h2>
+
+    <div class="history-section">
+        <h3>Successfully Deleted ({{ deleted|length }})</h3>
+        <div class="search-box">
+            <input type="text" id="searchDeleted" placeholder="Search deleted emails...">
+        </div>
+        <div class="history-list">
+            {% for email in deleted %}
+            <div class="history-item">{{ email }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="history-section">
+        <h3>Safe Skipped ({{ safe_skipped|length }})</h3>
+        <p class="info-text">Emails skipped due to low count (< 10)</p>
+                <div class="search-box">
+                    <input type="text" id="searchSafe" placeholder="Search safe-skipped emails...">
+                </div>
+                <div class="history-list">
+                    {% for email in safe_skipped %}
+                    <div class="history-item safe">{{ email }}</div>
+                    {% endfor %}
+                </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('searchDeleted').addEventListener('input', function () {
+        filterList(this.value, this.parentElement.nextElementSibling);
+    });
+
+    document.getElementById('searchSafe').addEventListener('input', function () {
+        filterList(this.value, this.parentElement.nextElementSibling);
+    });
+
+    function filterList(query, listElement) {
+        const items = listElement.querySelectorAll('.history-item');
+        items.forEach(item => {
+            if (item.textContent.toLowerCase().includes(query.toLowerCase())) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+</script>
+{% endblock %}

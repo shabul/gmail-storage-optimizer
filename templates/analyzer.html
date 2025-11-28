@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Analyzer - Gmail Storage Optimizer{% endblock %}
+
+{% block content %}
+<div class="analyzer">
+    <h2>Email Analyzer</h2>
+    <p>Scan your Gmail inbox to identify high-volume senders.</p>
+
+    <div class="analyzer-controls">
+        <label for="pages">Pages to scan:</label>
+        <input type="number" id="pages" value="500" min="100" max="2000" step="100">
+        <button id="runAnalyzer" class="btn btn-primary">Run Analyzer</button>
+    </div>
+
+    <div id="analyzerStatus" class="status-message" style="display: none;"></div>
+
+    <div id="analyzerResults" class="results-section" style="display: none;">
+        <h3>Results</h3>
+        <p class="results-info">Select emails to add to your keywords list:</p>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Email Address</th>
+                    <th>Count</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+            </tbody>
+        </table>
+        <button id="addSelected" class="btn btn-success">Add Selected to Keywords</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('runAnalyzer').addEventListener('click', function () {
+        const pages = document.getElementById('pages').value;
+        const statusDiv = document.getElementById('analyzerStatus');
+        const resultsDiv = document.getElementById('analyzerResults');
+
+        statusDiv.style.display = 'block';
+        statusDiv.textContent = 'Analyzer running... This may take several minutes.';
+        statusDiv.className = 'status-message status-info';
+
+        fetch('/api/run-analyzer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pages: parseInt(pages) })
+        })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.textContent = data.message;
+                statusDiv.className = 'status-message status-success';
+                // TODO: Poll for results
+            })
+            .catch(error => {
+                statusDiv.textContent = 'Error running analyzer: ' + error;
+                statusDiv.className = 'status-message status-error';
+            });
+    });
+</script>
+{% endblock %}

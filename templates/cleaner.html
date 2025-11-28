@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Cleaner - Gmail Storage Optimizer{% endblock %}
+
+{% block content %}
+<div class="cleaner">
+    <h2>Email Cleaner</h2>
+
+    <div class="cleaner-controls">
+        <button id="startCleaner" class="btn btn-success btn-large">Start Cleaning</button>
+        <button id="stopCleaner" class="btn btn-danger btn-large" style="display: none;">Stop</button>
+    </div>
+
+    <div id="cleanerStatus" class="status-panel">
+        <h3>Status: <span id="statusText">Ready</span></h3>
+        <div class="progress-bar">
+            <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+        </div>
+        <p id="currentKeyword"></p>
+    </div>
+
+    <div class="logs-section">
+        <h3>Logs</h3>
+        <div id="logsContainer" class="logs-container"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let statusInterval;
+
+    document.getElementById('startCleaner').addEventListener('click', function () {
+        fetch('/api/run-cleaner', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'started') {
+                    document.getElementById('startCleaner').style.display = 'none';
+                    document.getElementById('stopCleaner').style.display = 'inline-block';
+                    startStatusPolling();
+                } else {
+                    alert(data.message);
+                }
+            });
+    });
+
+    function startStatusPolling() {
+        statusInterval = setInterval(function () {
+            fetch('/api/cleaner-status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('statusText').textContent = data.running ? 'Running' : 'Completed';
+                    document.getElementById('progressFill').style.width = data.progress + '%';
+                    document.getElementById('currentKeyword').textContent = data.current_keyword;
+
+                    const logsContainer = document.getElementById('logsContainer');
+                    logsContainer.innerHTML = data.logs.map(log => '<div class="log-entry">' + log + '</div>').join('');
+                    logsContainer.scrollTop = logsContainer.scrollHeight;
+
+                    if (!data.running) {
+                        clearInterval(statusInterval);
+                        document.getElementById('startCleaner').style.display = 'inline-block';
+                        document.getElementById('stopCleaner').style.display = 'none';
+                    }
+                });
+        }, 1000);
+    }
+</script>
+{% endblock %}

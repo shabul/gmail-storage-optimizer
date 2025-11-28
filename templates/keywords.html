@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Keywords - Gmail Storage Optimizer{% endblock %}
+
+{% block content %}
+<div class="keywords">
+    <h2>Keywords Management</h2>
+
+    <div class="keywords-section">
+        <h3>Active Keywords ({{ keywords.emails|length }})</h3>
+        <div class="add-keyword">
+            <input type="email" id="newKeyword" placeholder="email@example.com">
+            <button id="addKeyword" class="btn btn-primary">Add Keyword</button>
+        </div>
+
+        <div class="keywords-list">
+            {% for email in keywords.emails %}
+            <div class="keyword-item">
+                <span>{{ email }}</span>
+                <button class="btn-remove" data-email="{{ email }}">Remove</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="protected-section">
+        <h3>Protected Emails ({{ keywords.protected_emails|length }})</h3>
+        <p class="info-text">These emails will never be deleted</p>
+        <div class="protected-list">
+            {% for email in keywords.protected_emails %}
+            <div class="keyword-item protected">
+                <span>{{ email }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('addKeyword').addEventListener('click', function () {
+        const email = document.getElementById('newKeyword').value;
+        if (!email) return;
+
+        fetch('/api/keywords', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            });
+    });
+
+    document.querySelectorAll('.btn-remove').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const email = this.getAttribute('data-email');
+            if (!confirm('Remove ' + email + '?')) return;
+
+            fetch('/api/keywords', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                });
+        });
+    });
+</script>
+{% endblock %}
