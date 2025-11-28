@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Gmail Storage Optimizer{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>Dashboard</h2>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>{{ stats.total_deleted }}</h3>
+            <p>Emails Deleted</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ stats.total_safe_skipped }}</h3>
+            <p>Safe Skipped</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ stats.total_keywords }}</h3>
+            <p>Active Keywords</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ stats.total_protected }}</h3>
+            <p>Protected Emails</p>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+            <a href="{{ url_for('analyzer') }}" class="btn btn-primary">Run Analyzer</a>
+            <a href="{{ url_for('cleaner') }}" class="btn btn-success">Start Cleaning</a>
+            <a href="{{ url_for('keywords_page') }}" class="btn btn-secondary">Manage Keywords</a>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h3>About This Tool</h3>
+        <p>Gmail Storage Optimizer helps you reclaim storage space without paying for Google One. It automatically
+            identifies and deletes bulk emails while protecting important correspondence.</p>
+
+        <div class="features">
+            <h4>Safety Features:</h4>
+            <ul>
+                <li>Never deletes personal emails (@gmail.com, @outlook.com)</li>
+                <li>Skips deletion if fewer than 10 emails found</li>
+                <li>Protects starred and important emails</li>
+                <li>Maintains audit logs of all actions</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
