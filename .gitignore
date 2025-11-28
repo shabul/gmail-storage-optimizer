@@ -1,0 +1,34 @@
+# Chrome profile directory (contains login session)
+chrome-profile/
+
+# History and log files (contain personal email addresses)
+deleted_history.json
+safe_not_deleted.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Personal keyword lists (may contain sensitive info)
+keywords.py
+keywords_stack.py
