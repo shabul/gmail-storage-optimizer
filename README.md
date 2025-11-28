@@ -142,6 +142,30 @@ The cleaner will:
 - Delete emails iteratively until none remain
 - Log all activity to `deleted_history.json` and `safe_not_deleted.json`
 
+### Using the Web Interface
+
+For a more user-friendly experience, use the web interface:
+
+1. Start the Flask server:
+```bash
+python app.py
+```
+
+2. Open your browser and navigate to:
+```
+http://localhost:5000
+```
+
+3. The web interface provides:
+   - **Dashboard**: View statistics and quick actions
+   - **Analyzer**: Run analysis and view results in a table
+   - **Keywords**: Add/remove email addresses with a visual interface
+   - **Cleaner**: Start cleaning with real-time progress updates
+   - **History**: Browse deletion logs with search functionality
+
+The web UI makes it easier to manage keywords, monitor progress, and review history without using the command line.
+
+
 ## Configuration
 
 ### Adjusting the Safety Threshold
@@ -170,13 +194,26 @@ python gmail_analyzer.py --pages 1000  # Scan more pages for deeper analysis
 
 ```
 gmail-storage-optimizer/
+├── app.py                     # Flask web application
 ├── gmail_cleaner.py           # Main deletion script
 ├── gmail_analyzer.py          # Sender analysis script
 ├── keywords.py                # Email addresses to process
 ├── requirements.txt           # Python dependencies
 ├── deleted_history.json       # Log of successfully deleted keywords
 ├── safe_not_deleted.json      # Log of keywords skipped due to threshold
-└── chrome-profile/            # Persistent Chrome session (auto-created)
+├── chrome-profile/            # Persistent Chrome session (auto-created)
+├── templates/                 # HTML templates for web UI
+│   ├── base.html
+│   ├── dashboard.html
+│   ├── analyzer.html
+│   ├── keywords.html
+│   ├── cleaner.html
+│   └── history.html
+└── static/                    # CSS and JavaScript for web UI
+    ├── css/
+    │   └── style.css
+    └── js/
+        └── main.js
 ```
 
 ## Safety Features Explained
