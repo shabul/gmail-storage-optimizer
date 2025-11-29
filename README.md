@@ -275,6 +275,9 @@ Contributions are welcome. Please:
 - Test thoroughly before submitting PRs
 - Update documentation for new features
 
+## About Shabul
+Built by Shabul to dodge storage nags the fun way. Say hey on [LinkedIn](https://www.linkedin.com/in/shabul/) or browse more builds at [shabul.github.io](https://shabul.github.io/). If this saved you a Google One bill, toss a star or follow [@shabul](https://github.com/shabul).
+
 ## License
 
 MIT License - feel free to use and modify for your needs.
