@@ -278,6 +278,8 @@ Contributions are welcome. Please:
 ## About Shabul
 Built by Shabul to dodge storage nags the fun way. Say hey on [LinkedIn](https://www.linkedin.com/in/shabul/) or browse more builds at [shabul.github.io](https://shabul.github.io/). If this saved you a Google One bill, toss a star or follow [@shabul](https://github.com/shabul).
 
+SEO: Shabul Hussain Abdul – Amazon ML/LLM/Gen AI engineer; automation + agents with a deep learning backbone. Hashtags: #ShabulHussainAbdul #MachineLearningEngineer #LLMEngineer #AIAgents
+
 ## License
 
 MIT License - feel free to use and modify for your needs.
